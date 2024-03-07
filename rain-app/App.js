@@ -3,17 +3,18 @@ import { StyleSheet, Text, View } from 'react-native';
 import db from "./src/firebase";
 import {useEffect, useState} from "react";
 
-import _currentPosition from "./components/location/currentPosition";
+import currentPosition from "./components/location/currentPosition";
 import _weeklyWeather from './components/weather/weeklyWeather';
 import getUser from "./components/users/restResources";
+import dailyWeather from './components/weather/dailyWeather';
 
 export default function App() {
-  const currentPosition = _currentPosition();
-  const weeklyWeather = _weeklyWeather(currentPosition.latitude, currentPosition.longitude);
-  const weatherDisplay = () => {
-    if (weeklyWeather === null) return "ちょっとまってね";
-    else return (weeklyWeather[0].coordinates[0].dates[0].value);
-  }
+  const { coords, errorMsg } = currentPosition();
+  // const weeklyWeather = _weeklyWeather(coords.latitude, coords.longitude);
+  // const weatherDisplay = () => {
+  //   if (weeklyWeather === null) return "ちょっとまってね";
+  //   else return (weeklyWeather[0].coordinates[0].dates[0].value);
+  // }
   
   const id = "s78QpvIEffkCLJ1EAdDE";
   const userDisplay = ()=>{
@@ -32,12 +33,14 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>Rain App</Text>
-      <Text>
-        You are now at:{currentPosition.latitude}, {currentPosition.longitude}
-      </Text>
-      <Text>
+      {coords ? (
+        <Text>You are now at: {coords.latitude}, {coords.longitude}</Text>
+      ) : (
+        <Text>Waiting for location...</Text>
+      )}
+      {/* <Text>
         Weekly weathers:{weatherDisplay()}
-      </Text>
+      </Text> */}
       <Text>
         name: {userDisplay()}
       </Text>

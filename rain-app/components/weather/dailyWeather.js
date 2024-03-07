@@ -32,4 +32,4 @@ const dailyWeather = (geolocation) => {
     );
 };
 
-export default YourComponent;
+export default dailyWeather;
