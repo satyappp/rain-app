@@ -3,7 +3,7 @@ import makeUrl from './makeUrl';
 // import { format } from 'path';
 
 const today = new Date();
-const weeklyWeather = (coords, startDate = today, interval=7) => {
+const weeklyWeather = (coords, startDate = today , interval=6) => {
     const [data, setData] = useState(null);
 
     useEffect(() => {

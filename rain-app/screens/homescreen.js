@@ -19,10 +19,10 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import WeeklyWeatherComponent from '../components/weather/weeklyWeatherComponent';
 const HomeScreen = () => {
-    const { coords, errorMsg } = currentPosition();
+    const { coords, city, errorMsg } = currentPosition();
     return (
       <View style={styles.container}>
-        <DailyWeather /> 
+        <DailyWeather coord={coords} city = {city}/> 
         <WeeklyWeatherComponent coords={coords} />
       </View>
     );
