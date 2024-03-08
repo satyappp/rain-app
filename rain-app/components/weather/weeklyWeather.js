@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import makeUrl from './makeUrl';
+import { format } from 'path';
 
 const today = new Date();
-const weeklyWeather = (longitude, latitude, start_date = today, interval=7) => {
+const weeklyWeather = (coords, startDate = today, interval=7) => {
     const [data, setData] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
+            if (coords === null || coords===undefined) return null;
             try {
-                const url = await makeUrl(longitude, latitude, start_date, interval);
+                const url = await makeUrl(coords.longitude, coords.latitude, startDate, interval);
                 console.log(url);
                 const response = await fetch(url);
                 const result = await response.json();
@@ -20,7 +22,7 @@ const weeklyWeather = (longitude, latitude, start_date = today, interval=7) => {
         };
 
         fetchData();
-    }, []);
+    }, [coords]);
 
     return data;
 };
