@@ -14,12 +14,16 @@
 // border-radius: 59px;
 
 import DailyWeather from '../components/weather/dailyWeather';
+import currentPosition from "../components/location/currentPosition";
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import WeeklyWeatherComponent from '../components/weather/weeklyWeatherComponent';
 const HomeScreen = () => {
+    const { coords, errorMsg } = currentPosition();
     return (
       <View style={styles.container}>
         <DailyWeather /> 
+        <WeeklyWeatherComponent coords={coords} />
       </View>
     );
   };
