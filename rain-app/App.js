@@ -7,15 +7,16 @@ import currentPosition from "./components/location/currentPosition";
 import _weeklyWeather from './components/weather/weeklyWeather';
 import getUser from "./components/users/restResources";
 import dailyWeather from './components/weather/dailyWeather';
+import WeeklyWeatherComponent from './components/weather/weeklyWeatherComponent';
 
 export default function App() {
   const { coords, errorMsg } = currentPosition();
-  const weeklyWeather = _weeklyWeather(coords);
-  const weatherDisplay = () => {
-    if (weeklyWeather === null) return "ちょっとまってね";
-    else return (weeklyWeather[0].coordinates[0].dates[0].value);
-  }
-
+  // const weeklyWeather = _weeklyWeather(coords.latitude, coords.longitude);
+  // const weatherDisplay = () => {
+  //   if (weeklyWeather === null) return "ちょっとまってね";
+  //   else return (weeklyWeather[0].coordinates[0].dates[0].value);
+  // }
+  
   const id = "s78QpvIEffkCLJ1EAdDE";
   const userDisplay = ()=>{
     if (user === null || user === undefined) return "ちょっとまってね";
@@ -28,7 +29,7 @@ export default function App() {
       setUser(userData);
     };
     fetchData();
-  }, []);
+  }, [id]);
 
   return (
     <View style={styles.container}>
@@ -38,9 +39,10 @@ export default function App() {
       ) : (
         <Text>Waiting for location...</Text>
       )}
-      <Text>
+      <WeeklyWeatherComponent coords={coords} />
+      {/* <Text>
         Weekly weathers:{weatherDisplay()}
-      </Text>
+      </Text> */}
       <Text>
         name: {userDisplay()}
       </Text>
