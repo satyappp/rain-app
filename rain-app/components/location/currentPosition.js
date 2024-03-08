@@ -2,24 +2,36 @@ import { useState, useEffect } from 'react';
 import * as Location from 'expo-location';
 
 const currentPosition = () => {
-    const [coords, setCoords] = useState(null);
-    const [errorMsg, setErrorMsg] = useState(null);
+    const [locationInfo, setLocationInfo] = useState({
+        coords: null,
+        city: null,
+        errorMsg: null,
+    });
 
     useEffect(() => {
         (async () => {
             let { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== 'granted') {
-                setErrorMsg('Permission to access location was denied');
+                setLocationInfo(prevState => ({ ...prevState, errorMsg: 'Permission to access location was denied' }));
                 return;
             }
 
             let location = await Location.getCurrentPositionAsync({});
             const { latitude, longitude } = location.coords;
-            setCoords({ latitude, longitude });
+
+            // Reverse geocoding to get city name
+            const address = await Location.reverseGeocodeAsync({ latitude, longitude });
+            const city = address[0]?.city; // Grabbing the city from the first address returned
+
+            setLocationInfo({
+                coords: { latitude, longitude },
+                city,
+                errorMsg: null,
+            });
         })();
     }, []);
 
-    return { coords, errorMsg };
+    return locationInfo; // Returns coords, city, and errorMsg
 };
 
 export default currentPosition;

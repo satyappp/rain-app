@@ -1,53 +1,121 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
 import weatherIcon from '../../src/assets/kasa-kun.png';
+import weeklyWeather from './weeklyWeather';
+import currentPosition from "../location/currentPosition";
 
-const DailyWeather = ({ geolocation }) => {
-    const [data, setData] = useState(null);
+// const DailyWeather = ({ geolocation }) => {
+//     // Directly call weeklyWeather hook with geolocation
+//     const weeklyData = weeklyWeather(geolocation);
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const response = await fetch(`https://api.example.com/data?lat=${geolocation.latitude}&lon=${geolocation.longitude}`);
-    //             const result = await response.json();
-    //             setData(result);
-    //         } catch (error) {
-    //             console.error('Error fetching data:', error);
-    //         }
-    //     };
+//     const [todaysWeather, setTodaysWeather] = useState({ currentTemp: null, maxTemp: null, minTemp: null });
 
-    //     fetchData();
-    // }, [geolocation]); // Depend on geolocation to refetch when it changes
+//     useEffect(() => {
+//         // Assuming weeklyData structure is directly usable or null initially
+//         if (weeklyData) {
+//             const todayString = new Date().toISOString().split('T')[0];
+//             // Assuming weeklyData is an array of weather data for the week
+//             const todaysData = weeklyData.find(d => d.date && d.date.startsWith(todayString));
+//             if (todaysData) {
+//                 // Assuming todaysData includes the necessary weather details
+//                 setTodaysWeather({
+//                     currentTemp: todaysData.currentTemp, // Adjust these keys based on your data structure
+//                     maxTemp: todaysData.maxTemp,
+//                     minTemp: todaysData.minTemp,
+//                 });
+//             }
+//         }
+//     }, [weeklyData]); // Re-run effect when weeklyData changes
 
-    const weatherData = {
-        cityName: "San Francisco",
-        current: {
-            temp: 68,
-            weather: [{
-                icon: "01d" // This is a sunny weather icon. Change as needed.
-            }]
-        },
-        daily: [{
-            temp: {
-                max: 72,
-                min: 56
-            }
-        }]
-    };
+//     return (
+//         <View style={styles.weatherContainer}>
+//             <View style={styles.innerContainer}>
+//                 <Image style={styles.weatherIcon} source={weatherIcon} />
+//                 {todaysWeather.currentTemp ? (
+//                     <View style={styles.rightPart}>
+//                         <Text style={styles.temperature}>{`${Math.round(todaysWeather.currentTemp)}°`}</Text>
+//                         <Text style={styles.city}>{"Your City Name"}</Text>
+//                         <Text style={styles.tempRange}>{`H: ${Math.round(todaysWeather.maxTemp)}° L: ${Math.round(todaysWeather.minTemp)}°`}</Text>
+//                     </View>
+//                 ) : (
+//                     <Text>Loading...</Text>
+//                 )}
+//             </View>
+//         </View>
+//     );
+// };
 
+// // Your existing styles
+// const styles = StyleSheet.create({
+//     weatherContainer: {
+//         flexDirection: 'row',
+//         justifyContent: 'space-between',
+//         alignItems: 'center',
+//         padding: 20,
+//         backgroundColor: '#f9f9f9',
+//         borderRadius: 8,
+//         shadowColor: '#000',
+//         shadowOffset: { width: 0, height: 1 },
+//         shadowOpacity: 0.22,
+//         shadowRadius: 2.22,
+//         elevation: 3,
+//         margin: 10,
+//     },
+//     innerContainer: {
+//         flexDirection: 'row',
+//         alignItems: 'center',
+//     },
+//     rightPart: {
+//         flex: 1,
+//         marginLeft: 20,
+//     },
+//     temperature: {
+//         fontSize: 24,
+//         fontWeight: 'bold',
+//     },
+//     city: {
+//         fontSize: 18,
+//     },
+//     tempRange: {
+//         fontSize: 16,
+//     },
+//     weatherIcon: {
+//         width: 50,
+//         height: 50,
+//     },
+// });
+
+// export default DailyWeather;
+
+const DailyWeather = ({ coord, city }) => {
+    // const { coords, city, errorMsg } = currentPosition();
+    const weatherData = weeklyWeather(coord);
+
+    if (!weatherData) {
+        return <Text>Loading...</Text>;
+    }
+    const todayString = new Date().toISOString().split('T')[0];
+
+    const TempDataToday = weatherData.find(item => item.parameter === "t_2m:C")
+        ?.coordinates[0].dates.find(date => date.date.startsWith(todayString));
+
+    const highestTempDataToday = weatherData.find(item => item.parameter === "t_max_2m_24h:C")
+        ?.coordinates[0].dates.find(date => date.date.startsWith(todayString));
+
+    const lowestTempDataToday = weatherData.find(item => item.parameter === "t_min_2m_24h:C")
+        ?.coordinates[0].dates.find(date => date.date.startsWith(todayString));
+
+    if (!highestTempDataToday || !lowestTempDataToday) {
+        return <Text>No data available for today.</Text>;
+    }
     return (
         <View style={styles.weatherContainer}>
             <View style={styles.innerContainer}>
-                {/* Left Part: Weather Icon */}
-                <Image
-                    style={styles.weatherIcon}
-                    source={weatherIcon}
-                />
-                {/* Right Part: Temperature, City, High/Low */}
+                <Image style={styles.weatherIcon} source={weatherIcon} />
                 <View style={styles.rightPart}>
-                    <Text style={styles.temperature}>{`${Math.round(weatherData.current.temp)}°`}</Text>
-                    <Text style={styles.city}>{weatherData.cityName}</Text>
-                    <Text style={styles.tempRange}>{`H: ${Math.round(weatherData.daily[0].temp.max)}° L: ${Math.round(weatherData.daily[0].temp.min)}°`}</Text>
+                    <Text style={styles.temperature}>{`${Math.round(TempDataToday.value)}°`}</Text>
+                    <Text style={styles.city}>{city}</Text> 
+                    <Text style={styles.tempRange}>{`H: ${Math.round(highestTempDataToday.value)}° L: ${Math.round(lowestTempDataToday.value)}°`}</Text>
                 </View>
             </View>
         </View>
@@ -67,7 +135,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.22,
         shadowRadius: 2.22,
         elevation: 3,
-        margin: 10, // Added margin for better visibility in layout
+        margin: 10,
     },
     innerContainer: {
         flexDirection: 'row',
@@ -75,7 +143,7 @@ const styles = StyleSheet.create({
     },
     rightPart: {
         flex: 1,
-        marginLeft: 20, // Added space between icon and text
+        marginLeft: 20,
     },
     temperature: {
         fontSize: 24,
