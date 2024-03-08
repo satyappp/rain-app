@@ -3,11 +3,13 @@ import { StyleSheet, Text, View } from 'react-native';
 import db from "./src/firebase";
 import {useEffect, useState} from "react";
 
-// import currentPosition from "./components/location/currentPosition";
+
+// import currentPosition from "./Acomponents/location/currentPosition";
 import _weeklyWeather from './components/weather/weeklyWeather';
 import getUser from "./components/users/restResources";
 import dailyWeather from './components/weather/dailyWeather';
 import HomeScreen from './screens/homescreen';
+
 
 
 export default function App() {

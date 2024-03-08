@@ -16,14 +16,21 @@
 import DailyWeather from '../components/weather/dailyWeather';
 import currentPosition from "../components/location/currentPosition";
 import React from 'react';
+import BottomNavBar from '../components/navigation/bottomNavBar';
 import { View, Text, StyleSheet } from 'react-native';
 import WeeklyWeatherComponent from '../components/weather/weeklyWeatherComponent';
+import AppStack from '../navigation/AppStack';
+import { NavigationContainer } from '@react-navigation/native';
 const HomeScreen = () => {
     const { coords, errorMsg } = currentPosition();
     return (
       <View style={styles.container}>
         <DailyWeather /> 
         <WeeklyWeatherComponent coords={coords} />
+        {/* <BottomNavBar /> */}
+        <NavigationContainer>
+            <AppStack />
+        </NavigationContainer>
       </View>
     );
   };
