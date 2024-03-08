@@ -7,6 +7,7 @@ import currentPosition from "./components/location/currentPosition";
 import _weeklyWeather from './components/weather/weeklyWeather';
 import getUser from "./components/users/restResources";
 import dailyWeather from './components/weather/dailyWeather';
+import WeeklyWeatherComponent from './components/weather/weeklyWeatherComponent';
 
 export default function App() {
   const { coords, errorMsg } = currentPosition();
@@ -38,6 +39,7 @@ export default function App() {
       ) : (
         <Text>Waiting for location...</Text>
       )}
+      <WeeklyWeatherComponent coords={coords} />
       {/* <Text>
         Weekly weathers:{weatherDisplay()}
       </Text> */}
