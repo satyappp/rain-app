@@ -7,7 +7,7 @@ const WeeklyWeatherComponent = ({ coords }) => {
   const weatherData = weeklyWeather(coords);
 
   if (!weatherData) {
-    return <Text>Loading...</Text>;
+    return;
   }
   const highestTempData = weatherData.find(item => item.parameter === "t_max_2m_24h:C");
   const lowestTempData = weatherData.find(item => item.parameter === "t_min_2m_24h:C");
