@@ -1,26 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { ImageBackground,View, Image, Text, StyleSheet } from 'react-native';
-import weatherIcon from '../../src/assets/kasa-kun.png';
 import weeklyWeather from './weeklyWeather';
-import currentPosition from "../location/currentPosition";
 import RotatingLoader from '../animations/rotatingLoader';
 import { useFonts } from 'expo-font';
 import weatherIconMapping from '../../utilities/weatherMapping';
 
 const DailyWeather = ({ coord, city }) => {
-    // const { coords, city, errorMsg } = currentPosition();
     const weatherData = weeklyWeather(coord);
     const [fontsLoaded] = useFonts({
         'KodomoRounded': require('../../src/assets/fonts/KodomoRounded.otf'),
+        'SFProDisplayLight': require("../../src/assets/fonts/SFProDisplayLight.otf"),
+        'SFProDisplayMedium': require("../../src/assets/fonts/SFProDisplayMedium.otf"),
+        'SFProDisplayRegular': require("../../src/assets/fonts/SFProDisplayRegular.otf")
     });
+
+    if(!fontsLoaded){
+        return;
+    }
 
     if (!weatherData) {
         return(
             <View style={styles.loadingContainer}>
                 <Text style={styles.loadText}>かさは持ったかさ？</Text>
                 <RotatingLoader source={require('../../src/assets/kasa-kun.png')} />
-            </View>
-            
+            </View>  
         )
     }
     const todayString = new Date().toISOString().split('T')[0];
@@ -56,6 +59,8 @@ const DailyWeather = ({ coord, city }) => {
               <Text style={styles.city}>{city}</Text> 
               <Text style={styles.tempRange}>{`H: ${Math.round(highestTempDataToday.value)}° L: ${Math.round(lowestTempDataToday.value)}°`}</Text>
             </View>
+            <Image source={require('../../src/assets/kasa-kun.png')} 
+                    style={styles.absoluteImage}></Image>
           </View>
         </ImageBackground>
       );
@@ -72,8 +77,15 @@ const styles = StyleSheet.create({
     },
     backgroundImage: {
         borderRadius: 38,
-        resizeMode: 'stretch',
-        
+        resizeMode: 'stretch', 
+    },
+    absoluteImage: {
+        position: 'absolute',
+        top: '50%', 
+        left: '50%', 
+        transform: [{ translateX: 80 }, { translateY: 40 }], 
+        width: 100, 
+        height: 100,
     },
     loadText: {
         marginBottom: 20,
@@ -85,6 +97,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         alignItems: 'center',
         padding: 20,
+        paddingTop: 30,
+        paddingBottom: 30,
         backgroundColor: '#f9f9f9',
         borderRadius: 40,
         shadowColor: '#000',
@@ -92,9 +106,11 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.22,
         shadowRadius: 2.22,
         elevation: 3,
-        margin: 30,
-        borderColor: 'rgba(135, 38, 183, 0.3)',// Set the border color
-        borderWidth: 2, // Set the border width
+        margin: 20,
+        marginBottom: 50,
+        marginTop: 70,
+        borderColor: 'rgba(135, 38, 183, 0.3)',
+        borderWidth: 2, 
     },
     innerContainer: {
         flexDirection: 'row',
@@ -105,17 +121,20 @@ const styles = StyleSheet.create({
         marginLeft: 40,
     },
     temperature: {
-        fontSize: 60,
+        fontSize: 70,
         color: '#FFFFFF',
-        // fontFamily: 'SFProDisplay'
+        fontFamily: 'SFProDisplayLight',
     },
     city: {
-        fontSize: 18,
-        color: '#48319D'
+        fontSize: 20,
+        color: '#48319D',
+        fontFamily: 'SFProDisplayLight',
     },
     tempRange: {
+        marginTop: 2,
         fontSize: 16,
-        color: '#48319D'
+        color: '#48319D',
+        fontFamily: 'SFProDisplayLight',
     },
     weatherIcon: {
         width: 130,

@@ -40,22 +40,6 @@ export default function App() {
   }, [id]);
 
   return (
-    // <View style={styles.container}>
-    //   <Text>Rain App</Text>
-    //   {coords ? (
-    //     <Text>You are now at: {coords.latitude}, {coords.longitude}</Text>
-    //   ) : (
-    //     <Text>Waiting for location...</Text>
-    //   )}
-      
-    //   {/* <Text>
-    //     Weekly weathers:{weatherDisplay()}
-    //   </Text> */}
-    //   <Text>
-    //     name: {userDisplay()}
-    //   </Text>
-    //   <StatusBar style="auto" />
-    // </View>
     <HomeScreen />
   );
 }

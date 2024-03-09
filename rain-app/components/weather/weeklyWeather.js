@@ -22,11 +22,8 @@ const weeklyWeather = (coords, startDate = today , interval=7) => {
                 console.error('Error fetching data:', error);
             }
         };
-
         fetchData();
     }, [coords]);
-
     return data;
 };
-
 export default weeklyWeather;

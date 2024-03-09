@@ -15,20 +15,30 @@
 
 import DailyWeather from '../components/weather/dailyWeather';
 import currentPosition from "../components/location/currentPosition";
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, ImageBackground,View, Text, StyleSheet } from 'react-native';
 import WeeklyWeatherComponent from '../components/weather/weeklyWeatherComponent';
-import AppStack from '../navigation/AppStack';
 import { NavigationContainer } from '@react-navigation/native';
+import BottomNavBar from '../components/navigation/bottomNavBar';
 const HomeScreen = () => {
     const { coords, city, errorMsg } = currentPosition();
+    const [componentsLoaded, setComponentsLoaded] = useState(false); 
+
+    useEffect(() => {
+        if (coords && city) {
+            setComponentsLoaded(true); 
+        }
+    }, [coords, city]);
     return (
         <ImageBackground source={require('../src/assets/sun-home-bg.png')} style={styles.backgroundImage} >
             <View style={styles.container}>
                 <DailyWeather coord={coords} city = {city}/> 
-                <Image source={require('../src/assets/kasa-kun.png')} 
-                    style={styles.absoluteImage}></Image>
                 <WeeklyWeatherComponent coords={coords} />
+                {componentsLoaded && (
+                  <NavigationContainer>
+                    <BottomNavBar />
+                  </NavigationContainer>
+                )}
             </View>
       </ImageBackground>
     );
@@ -47,17 +57,7 @@ const HomeScreen = () => {
       justifyContent: 'space-evenly',
       alignItems: 'center',
       width: '100%',
-      paddingTop: 30,
-      paddingBottom: 30,
-
-    },
-    absoluteImage: {
-        position: 'absolute',
-        top: '50%', 
-        left: '50%', 
-        transform: [{ translateX: 80 }, { translateY: -200 }], 
-        width: 100, 
-        height: 100,
+      paddingTop: 50,
     },
     title: {
       fontSize: 24,
