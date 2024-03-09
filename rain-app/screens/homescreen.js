@@ -16,31 +16,48 @@
 import DailyWeather from '../components/weather/dailyWeather';
 import currentPosition from "../components/location/currentPosition";
 import React from 'react';
-import BottomNavBar from '../components/navigation/bottomNavBar';
-import { View, Text, StyleSheet } from 'react-native';
+import { Image, ImageBackground,View, Text, StyleSheet } from 'react-native';
 import WeeklyWeatherComponent from '../components/weather/weeklyWeatherComponent';
 import AppStack from '../navigation/AppStack';
 import { NavigationContainer } from '@react-navigation/native';
 const HomeScreen = () => {
-    const { coords, errorMsg } = currentPosition();
+    const { coords, city, errorMsg } = currentPosition();
     return (
-      <View style={styles.container}>
-        <DailyWeather /> 
-        <WeeklyWeatherComponent coords={coords} />
-        {/* <BottomNavBar /> */}
-        <NavigationContainer>
-            <AppStack />
-        </NavigationContainer>
-      </View>
+        <ImageBackground source={require('../src/assets/sun-home-bg.png')} style={styles.backgroundImage} >
+            <View style={styles.container}>
+                <DailyWeather coord={coords} city = {city}/> 
+                <Image source={require('../src/assets/kasa-kun.png')} 
+                    style={styles.absoluteImage}></Image>
+                <WeeklyWeatherComponent coords={coords} />
+            </View>
+      </ImageBackground>
     );
   };
   
   const styles = StyleSheet.create({
+    backgroundImage: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        resizeMode: 'stretch',
+        bottom: 0,
+    },
     container: {
       flex: 1,
-      justifyContent: 'center',
+      justifyContent: 'space-evenly',
       alignItems: 'center',
-      padding: 20,
+      width: '100%',
+      paddingTop: 30,
+      paddingBottom: 30,
+
+    },
+    absoluteImage: {
+        position: 'absolute',
+        top: '50%', 
+        left: '50%', 
+        transform: [{ translateX: 80 }, { translateY: -200 }], 
+        width: 100, 
+        height: 100,
     },
     title: {
       fontSize: 24,

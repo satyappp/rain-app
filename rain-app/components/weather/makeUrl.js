@@ -19,7 +19,7 @@ const  makeUrl = async (latitude, longitude, startDate, interval,dateFormat="jso
 
     try {
         const token = await getToken();
-        let url = `https://api.meteomatics.com/${formattedStartDate}--${formattedEndDate}:PT24H/t_2m:C,t_max_2m_24h:C,t_min_2m_24h:C/${longitude},${latitude}/${dateFormat}`
+        let url = `https://api.meteomatics.com/${formattedStartDate}--${formattedEndDate}:PT24H/weather_symbol_24h:idx,t_2m:C,t_max_2m_24h:C,t_min_2m_24h:C/${longitude},${latitude}/${dateFormat}`
         url += `?access_token=${token}`
         url = encodeURI(url);
         console.log(encodeURI(url));

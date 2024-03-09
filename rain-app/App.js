@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import db from "./src/firebase";
 import {useEffect, useState} from "react";
+import { useFonts } from 'expo-font';
 
 
 // import currentPosition from "./Acomponents/location/currentPosition";
@@ -9,6 +10,7 @@ import _weeklyWeather from './components/weather/weeklyWeather';
 import getUser from "./components/users/restResources";
 import dailyWeather from './components/weather/dailyWeather';
 import HomeScreen from './screens/homescreen';
+import LoadingScreen from './screens/loadingScreen';
 
 
 
@@ -19,6 +21,9 @@ export default function App() {
   //   if (weeklyWeather === null) return "ちょっとまってね";
   //   else return (weeklyWeather[0].coordinates[0].dates[0].value);
   // }
+  const [fontsLoaded] = useFonts({
+    'KodomoRounded': require('./src/assets/fonts/KodomoRounded.otf'),
+  });
   
   const id = "s78QpvIEffkCLJ1EAdDE";
   const userDisplay = ()=>{
