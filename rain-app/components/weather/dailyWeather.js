@@ -3,7 +3,7 @@ import { View, Image, Text, StyleSheet } from 'react-native';
 import weatherIcon from '../../src/assets/kasa-kun.png';
 import weeklyWeather from './weeklyWeather';
 import currentPosition from "../location/currentPosition";
-import LoadingScreen from '../../screens/loadingScreen';
+import RotatingLoader from '../animations/rotatingLoader';
 
 // const DailyWeather = ({ geolocation }) => {
 //     // Directly call weeklyWeather hook with geolocation
@@ -95,8 +95,10 @@ const DailyWeather = ({ coord, city }) => {
     if (!weatherData) {
         return(
             <View style={styles.loadingContainer}>
-                <LoadingScreen />
+                <Text style={styles.loadText}>かさは持ったかさ？</Text>
+                <RotatingLoader source={require('../../src/assets/kasa-kun.png')} />
             </View>
+            
         )
     }
     const todayString = new Date().toISOString().split('T')[0];
@@ -129,7 +131,18 @@ const DailyWeather = ({ coord, city }) => {
 
 const styles = StyleSheet.create({
     loadingContainer: {
-        margin: 0
+        margin: 0,
+        backgroundColor: "white",
+        width: "100%",
+        height: "100%",
+        justifyContent: 'center',
+        alignItems: 'center',
+
+    },
+    loadText: {
+        marginBottom: 20,
+        fontFamily: 'KodomoRounded',
+        fontSize: 30,
     },
     weatherContainer: {
         flexDirection: 'row',
@@ -143,7 +156,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.22,
         shadowRadius: 2.22,
         elevation: 3,
-        margin: 10,
+        margin: 30,
     },
     innerContainer: {
         flexDirection: 'row',
@@ -167,6 +180,7 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
     },
+    
 });
 
 export default DailyWeather;

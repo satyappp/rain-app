@@ -33,12 +33,11 @@ const WeeklyWeatherComponent = ({ coords }) => {
 
 const styles = StyleSheet.create({
   scrollView: {
-    flexDirection: 'row', // Ensures the children are laid out in a row
+    flexDirection: 'row', 
+    margin: 30,
   },
   column: {
-    // Style each column, if necessary. Adjust padding, margin, etc., as needed.
   },
-  // Add any additional styling as needed
 });
 
 export default WeeklyWeatherComponent;
