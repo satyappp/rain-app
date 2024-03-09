@@ -3,7 +3,7 @@ import makeUrl from './makeUrl';
 // import { format } from 'path';
 
 const today = new Date();
-const weeklyWeather = (coords, startDate = today , interval=6) => {
+const weeklyWeather = (coords, startDate = today , interval=7) => {
     const [data, setData] = useState(null);
 
     useEffect(() => {
@@ -22,11 +22,8 @@ const weeklyWeather = (coords, startDate = today , interval=6) => {
                 console.error('Error fetching data:', error);
             }
         };
-
         fetchData();
     }, [coords]);
-
     return data;
 };
-
 export default weeklyWeather;
