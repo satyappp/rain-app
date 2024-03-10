@@ -18,7 +18,7 @@ import { View, Text, StyleSheet, Button } from 'react-native';
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
 
-const _requestPermissionsAsync = async () => {
+const requestPermissionsAsync = async () => {
     const { granted } = await Notifications.getPermissionsAsync();
     if (granted) { return }
   
@@ -35,45 +35,18 @@ const scheduleNotificationAsync = async () => {
       trigger: {
         seconds: 1,
       }
-    }).then(() => console.log("yatta-")).catch(() => console.log("fuckyou"));
+    }).then(() => console.log("success")).catch(() => console.log("fail"));
   };
-
-//   _confirmNotificationPermission =   async ()=> {
-//     const permission = await Permissions.getAsync(Permissions.NOTIFICATIONS)
-//     if (permission.status === 'granted') return true
-//     const askResult = await Permissions.askAsync(Permissions.NOTIFICATIONS)
-//     return askResult.status === 'granted'
-//   }
-
-// _confirmLocationPermission = async ()=> {
-//     const permissionIsValid = (permission) => {
-//       if (permission.status !== 'granted') return false
-//       if (Platform.OS !== 'ios') return true
-//       return permission.permissions.location.ios.scope === 'always'
-//     };
-//     const permission = await Permissions.getAsync(Permissions.LOCATION_FOREGROUND);
-//     if (permissionIsValid(permission)) return true;
-//     const askResult = await Permissions.askAsync(Permissions.LOCATION_FOREGROUND);
-//     return permissionIsValid(askResult);
-//   } 
-
-
 
 const NotificationTestScreen = () => {
     React.useEffect(() => {
-        _requestPermissionsAsync();
+        requestPermissionsAsync();
       });
-    // state = {
-    //     isNotificationPermitted: false,
-    //     isLocationPermitted: false,
-    // }
 
     return (
       <View style={styles.container}>
         <Text>Notification Test</Text>
 
-        {/* <Text>Notification Permission: { this.state.isNotificationPermitted ? '○' : '×' }</Text>
-        <Text>Location Permission: { this.state.isLocationPermitted ? '○' : '×' }</Text> */}
         <Button
             title='3秒後にプッシュ通知する'
             onPress={scheduleNotificationAsync}
