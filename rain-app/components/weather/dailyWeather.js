@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ImageBackground,View, Image, Text, StyleSheet } from 'react-native';
+import { ImageBackground,View, Image, Text, StyleSheet, Platform} from 'react-native';
 import weeklyWeather from './weeklyWeather';
 import RotatingLoader from '../animations/rotatingLoader';
 import { useFonts } from 'expo-font';
@@ -86,6 +86,7 @@ const styles = StyleSheet.create({
         transform: [{ translateX: 80 }, { translateY: 40 }], 
         width: 100, 
         height: 100,
+        display: Platform.OS === 'android' ? 'none' : 'flex',
     },
     loadText: {
         marginBottom: 20,
@@ -97,8 +98,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         alignItems: 'center',
         padding: 20,
-        paddingTop: 30,
-        paddingBottom: 30,
+        paddingTop: Platform.OS === 'android' ? 10 : 30,
+        paddingBottom: Platform.OS === 'android' ? 10 : 30,
         backgroundColor: '#f9f9f9',
         borderRadius: 40,
         shadowColor: '#000',
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
         shadowRadius: 2.22,
         elevation: 3,
         margin: 20,
-        marginBottom: 50,
+        marginBottom:Platform.OS === 'android' ? 20 : 30,
         marginTop: 70,
         borderColor: 'rgba(135, 38, 183, 0.3)',
         borderWidth: 2, 
@@ -124,6 +125,7 @@ const styles = StyleSheet.create({
         fontSize: 70,
         color: '#FFFFFF',
         fontFamily: 'SFProDisplayLight',
+        marginBottom:Platform.OS === 'android' ? -20 : 0,
     },
     city: {
         fontSize: 20,
@@ -131,7 +133,7 @@ const styles = StyleSheet.create({
         fontFamily: 'SFProDisplayLight',
     },
     tempRange: {
-        marginTop: 2,
+        marginBottom:Platform.OS === 'android' ? 0 : 2,
         fontSize: 16,
         color: '#48319D',
         fontFamily: 'SFProDisplayLight',
