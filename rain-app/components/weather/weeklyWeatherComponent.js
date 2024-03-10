@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet,View, ScrollView, Text } from 'react-native';
+import { StyleSheet,View, ScrollView, Text,Platform } from 'react-native';
 import WeatherDayComponent from './weatherDayComponent'; 
 import weeklyWeather from './weeklyWeather'; 
 
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', 
     marginLeft: 10,
     marginRight: 10,
-    marginTop: 130,
+    marginTop:Platform.OS === 'android' ? 100 : 130,
   },
   column: {
   },
