@@ -5,24 +5,11 @@ import * as TaskManager from 'expo-task-manager';
 
 const LOCATION_TRACKING = 'location-tracking';
 
-function UserLocation() {
+function BackgroundLocationTask() {
 
     const [locationStarted, setLocationStarted] = React.useState(false);
 
-    const startLocationTracking = async () => {
-        await Location.startLocationUpdatesAsync(LOCATION_TRACKING, {
-            accuracy: Location.Accuracy.Highest,
-            // timeInterval: 5*1000,
-            //　この値[m]移動したら、処理が発火
-            distanceInterval: 1,   //デモ用に1meter
-        });
-        const hasStarted = await Location.hasStartedLocationUpdatesAsync(
-            LOCATION_TRACKING
-        );
-        setLocationStarted(hasStarted);
-        console.log('tracking started?', hasStarted);
-    };
-
+    
     React.useEffect(() => {
         const config = async () => {
             let resf = await Location.requestForegroundPermissionsAsync();
@@ -34,7 +21,21 @@ function UserLocation() {
             }
         };
         config();
-
+        
+        const startLocationTracking = async () => {
+            console.log("tracking始めるよ")
+            await Location.startLocationUpdatesAsync(LOCATION_TRACKING, {
+                accuracy: Location.Accuracy.Highest,
+                // timeInterval: 5*1000,
+                //　この値[m]移動したら、処理が発火
+                distanceInterval: 1,   //デモ用に1meter
+            });
+            const hasStarted = await Location.hasStartedLocationUpdatesAsync(
+                LOCATION_TRACKING
+            );
+            setLocationStarted(hasStarted);
+            console.log('tracking started?', hasStarted);
+        };
         startLocationTracking();
     }, []);
 
@@ -86,7 +87,8 @@ TaskManager.defineTask(LOCATION_TRACKING, async ({ data, error }) => {
         console.log(
             `${new Date(Date.now()).toLocaleString()}: ${lat},${long}`
         );
+        console.log("通知を送る");
     }
 });
 
-export default UserLocation;
+export default BackgroundLocationTask;

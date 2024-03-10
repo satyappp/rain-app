@@ -7,8 +7,8 @@ import * as Notifications from 'expo-notifications';
 // import { Notification } from 'expo/build/Notifications/Notifications.types'
 import * as Constants from 'expo-constants';
 import * as Device from "expo-device";
-import PermissionsButton from './screens/taskManagerButton';
-import UserLocation from './screens/userLocation';
+// import PermissionsButton from './screens/taskManagerButton';
+import BackgroundLocationTask from './screens/backgroundLocationTask';
 import HomeScreen from "./screens/homescreen";
 
 projectId = "50ab238d-e05a-44fd-a781-21684e62698f";
@@ -26,6 +26,7 @@ projectId = "50ab238d-e05a-44fd-a781-21684e62698f";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => {
+    console.log("I've got an notification");
     return {
       shouldShowAlert: true,
       shouldPlaySound: true,
@@ -35,30 +36,44 @@ Notifications.setNotificationHandler({
 });
 
 // Can use this function below or use Expo's Push Notification Tool from: https://expo.dev/notifications
-async function sendPushNotification(expoPushToken) {
-  console.log("通知するしんよ～");
-  const message = {
-    to: expoPushToken,
-    sound: 'default',
-    title: 'Original Title',
-    body: 'And here is the body!',
-    data: { someData: 'goes here' },
-  };
+// async function sendPushNotification(expoPushToken) {
+  // console.log("通知するしんよ～");
+  // const message = {
+  //   to: expoPushToken,
+  //   sound: 'default',
+  //   title: 'Original Title',
+  //   body: 'And here is the body!',
+  //   data: { someData: 'goes here' },
+  // };
 
-  fetch('https://exp.host/--/api/v2/push/send', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Accept-encoding': 'gzip, deflate',
-      'Content-Type': 'application/json',
+  // fetch('https://exp.host/--/api/v2/push/send', {
+  //   method: 'POST',
+  //   headers: {
+  //     Accept: 'application/json',
+  //     'Accept-encoding': 'gzip, deflate',
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: JSON.stringify(message),
+  // }).then(res=>console.log("success?",res)).catch(e => console.log(e));
+
+async function schedulePushNotification() {
+
+  await Notifications.scheduleNotificationAsync({
+    // to: 
+    content: {
+      title: "通知のタイトル! 📬",
+      body: "通知の内容",
+      data: { data: "通知のデータ" },
     },
-    body: JSON.stringify(message),
-  }).then(res=>console.log(res)).catch(e => console.log(e));
+    //通知が送信するまでに、何秒が掛かる
+    trigger: { seconds: 2 },
+  });
 }
+
 
 async function registerForPushNotificationsAsync() {
   let token;
-  console.log(Platform);
+  console.log(Platform.OS);
   if (Platform.OS === 'android') {
     Notifications.setNotificationChannelAsync('default', {
       name: 'default',
@@ -102,10 +117,12 @@ export default function App() {
     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
 
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      console.log("げっと?");
       setNotification(notification);
     });
-
+    
     responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log("げっと?");
       console.log(response);
     });
 
@@ -126,13 +143,16 @@ export default function App() {
     //   <Button
     //     title="Press to Send Notification"
     //     onPress={async () => {
-    //       await sendPushNotification(expoPushToken);
+    //       await schedulePushNotification(expoPushToken);
+    //       // await sendPushNotification(expoPushToken);
     //     }}
     //   />
     // </View>
-    <>
+
+    // TASK-MANGER TEST
+   <>
       <HomeScreen />
-      <UserLocation/>
+      <BackgroundLocationTask/>
     </>
   );
 }
