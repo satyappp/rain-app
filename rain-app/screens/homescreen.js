@@ -15,31 +15,49 @@
 
 import DailyWeather from '../components/weather/dailyWeather';
 import currentPosition from "../components/location/currentPosition";
-import React from 'react';
-import BottomNavBar from '../components/navigation/bottomNavBar';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Image, ImageBackground,View, Text, StyleSheet } from 'react-native';
 import WeeklyWeatherComponent from '../components/weather/weeklyWeatherComponent';
-import AppStack from '../navigation/AppStack';
 import { NavigationContainer } from '@react-navigation/native';
+import BottomNavBar from '../components/navigation/bottomNavBar';
 const HomeScreen = () => {
     const { coords, city, errorMsg } = currentPosition();
+    const [componentsLoaded, setComponentsLoaded] = useState(false); 
+
+    useEffect(() => {
+        if (coords && city) {
+            setComponentsLoaded(true); 
+        }
+    }, [coords, city]);
     return (
-      <View style={styles.container}>
-        <DailyWeather coord={coords} city = {city}/> 
-        <WeeklyWeatherComponent coords={coords} />
-        {/* <BottomNavBar /> */}
-        <NavigationContainer>
-            <AppStack />
-        </NavigationContainer>
-      </View>
+        <ImageBackground source={require('../src/assets/sun-home-bg.png')} style={styles.backgroundImage} >
+            <View style={styles.container}>
+                <DailyWeather coord={coords} city = {city}/> 
+                <WeeklyWeatherComponent coords={coords} />
+                {componentsLoaded && (
+                  <NavigationContainer>
+                    <BottomNavBar />
+                  </NavigationContainer>
+                )}
+            </View>
+      </ImageBackground>
     );
   };
   
   const styles = StyleSheet.create({
+    backgroundImage: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        resizeMode: 'stretch',
+        bottom: 0,
+    },
     container: {
       flex: 1,
-      justifyContent: 'center',
+      justifyContent: 'space-evenly',
       alignItems: 'center',
+      width: '100%',
+      paddingTop: 50,
     },
     title: {
       fontSize: 24,

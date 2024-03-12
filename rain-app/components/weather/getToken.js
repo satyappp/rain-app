@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {decode as atob, encode as btoa} from 'base-64'
-const username="tokyoinstituteoftechnology_uemura_ryota";
-const password="YE1rbx801L";
+const username="universityofaizu_pahari_satyabrata";
+const password="xxQ12AI32s";
 let headers = new Headers();
 headers.set('Authorization', 'Basic ' + btoa(username + ":" + password));
 

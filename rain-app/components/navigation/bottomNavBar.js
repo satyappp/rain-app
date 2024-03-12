@@ -2,6 +2,7 @@ import React from 'react';
 import { Alert, Animated, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { CurvedBottomBarExpo } from 'react-native-curved-bottom-bar';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 const Screen1 = () => {
@@ -14,25 +15,27 @@ const Screen2 = () => {
 
 export default function BottomNavBar() {
   const navigation = useNavigation();
+  
   const _renderIcon = (routeName, selectedTab) => {
     let icon = '';
 
     switch (routeName) {
       case 'Home':
-        return <HomeScreen />;
+        icon = 'home';
+        break;
       case 'title1':
-        icon = 'ios-home-outline';
+        icon = 'user-circle';
         break;
       case 'title2':
-        icon = 'settings-outline';
+        icon = 'map-marker';
         break;
     }
 
     return (
-      <Ionicons
+      <FontAwesome 
         name={icon}
-        size={25}
-        color={routeName === selectedTab ? 'black' : 'gray'}
+        size={35}
+        color={'white'}
       />
     );
   };
@@ -41,7 +44,7 @@ export default function BottomNavBar() {
       <TouchableOpacity
         onPress={() => {
           // For now, do nothing or show an alert for other buttons
-          Alert.alert(`${routeName} Pressed`);
+          Alert.alert(`Feature Coming Soon`);
         }}
         style={styles.tabbarItem}
       >
@@ -56,19 +59,19 @@ export default function BottomNavBar() {
         type="UP"
         style={styles.bottomBar}
         shadowStyle={styles.shawdow}
-        height={55}
-        circleWidth={50}
+        height={70}
+        circleWidth={70}
         bgColor="#343780"
-        blurRadius= {10}
-        initialRouteName="title1"
+        blurRadius= {20}
+        initialRouteName="title1" 
         borderTopLeftRight
-        rrenderCircle={() => (
+        renderCircle={() => (
           <Animated.View style={styles.btnCircleUp}>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => navigation.navigate('Home')} 
+              onPress={() =>  {Alert.alert(`Thank you for using Re:KasaDX`);}}
             >
-              <Ionicons name={'apps-sharp'} color="gray" size={25} />
+              <FontAwesome name="home" size={35} color="white" />
             </TouchableOpacity>
           </Animated.View>
         )}
@@ -109,9 +112,9 @@ export const styles = StyleSheet.create({
   },
   bottomBar: {},
   btnCircleUp: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: 70,
+    height: 70,
+    borderRadius: 40,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#19133de6',
