@@ -66,6 +66,11 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
+
+  weatherIcon: {
+    width: 50,
+    height: 50,
+  },
 });
 
 export default WeatherDayComponent;

@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "774482832200",
+    "firebase_url": "https://hyper-umbrella-reminder-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "hyper-umbrella-reminder",
+    "storage_bucket": "hyper-umbrella-reminder.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:774482832200:android:7c4d5d87401a2f3325e17d",
+        "android_client_info": {
+          "package_name": "hyper.rain.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxJue_tHEbJ2ySRMW8YIbR6osSqwF2OAY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

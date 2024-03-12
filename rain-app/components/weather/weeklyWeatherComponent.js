@@ -8,6 +8,7 @@ const WeeklyWeatherComponent = ({ coords }) => {
 
   if (!weatherData) {
     return;
+    return;
   }
 
   const highestTempData = weatherData.find(item => item.parameter === "t_max_2m_24h:C");

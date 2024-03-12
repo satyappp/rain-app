@@ -8,6 +8,7 @@
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./src/assets/kasa-kun.png",
+      "image": "./src/assets/kasa-kun.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -15,13 +16,16 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
-    },
+      "supportsTablet": true,
+      "infoPlist": {
+        "UIBackgroundModes": ["location", "fetch", "remote-notification"]
+    }},
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "googleServicesFile": "./google-services.json"
     },
     "scheme": "rainapp",
     "web": {
@@ -35,6 +39,12 @@
         }
       ],
       "expo-router",
+      [
+        "expo-notifications",
+        {
+          "color": "#ffffff"
+        }
+      ],
       "expo-font"
     ]
   }
