@@ -3,6 +3,7 @@ import { View, Image, Text, StyleSheet } from 'react-native';
 import weatherIcon from '../../src/assets/kasa-kun.png';
 import weeklyWeather from './weeklyWeather';
 import currentPosition from "../location/currentPosition";
+import LoadingScreen from '../../screens/loadingScreen';
 
 // const DailyWeather = ({ geolocation }) => {
 //     // Directly call weeklyWeather hook with geolocation
@@ -92,7 +93,11 @@ const DailyWeather = ({ coord, city }) => {
     const weatherData = weeklyWeather(coord);
 
     if (!weatherData) {
-        return <Text>Loading...</Text>;
+        return(
+            <View style={styles.loadingContainer}>
+                <LoadingScreen />
+            </View>
+        )
     }
     const todayString = new Date().toISOString().split('T')[0];
 
@@ -123,6 +128,9 @@ const DailyWeather = ({ coord, city }) => {
 };
 
 const styles = StyleSheet.create({
+    loadingContainer: {
+        margin: 0
+    },
     weatherContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
